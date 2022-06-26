@@ -1,0 +1,21 @@
+version: "3.9"  # optional since v1.27.0
+services:
+  poker_env:
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - 8888:8888
+      - 2224:22
+    volumes:
+      - ./notebooks/:/tf/notebooks
+      - ./tmp/:/tmp
+      -  ./:/code
+    cap_add:
+      - SYS_PTRACE
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
